@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bar Group animation</title>
+  <style>
+    .bar-container {
+      display: flex;
+      gap: 10px;
+    }
+
+    .bar {
+      width: 2px;
+      height: 200px;
+      background-color: lightgray;
+      transform-origin: bottom;
+      will-change: transform;
+    }
+
+    .bar:nth-child(5n + 1) {
+      background-color: crimson;
+    }
+
+    .bar:nth-child(5n + 2) {
+      background-color: gold;
+    }
+
+    .bar:nth-child(5n + 3) {
+      background-color: forestgreen;
+    }
+
+    .bar:nth-child(5n + 4) {
+      background-color: dodgerblue;
+    }
+
+    .bar:nth-child(5n + 5) {
+      background-color: darkorchid;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bar-container"></div>
+
+  <script>
+    const container = document.querySelector('.bar-container');
+
+    const result = new Array(20).fill(null).reduce((acc, item) => {
+      const div = document.createElement('div');
+      div.classList.add('bar');
+      acc.appendChild(div);
+      return acc;
+    }, new DocumentFragment());
+
+    const keyframes = [
+      { transform: 'scaleY(0)' },
+      { transform: 'scaleY(1)' }
+    ];
+
+    const timing = {
+      duration: 3000,
+      direction: 'alternate',
+      fill: 'both',
+      easing: 'ease-in-out'
+    };
+
+
+    const animList = Array.from(result.querySelectorAll('.bar')).forEach((bar, index) => {
+      const keyframeEffect = new KeyframeEffect(bar, keyframes, { ...timing, delay: Math.random() * 2000 });
+      const anim = new Animation(keyframeEffect, document.timeline);
+      anim.play();
+    });
+
+    // result.querySelectorAll('.bar').forEach((bar, index) => {
+    //   bar.animate(keyframes, { ...timing, delay: index * 200 });
+    // })
+
+    container.appendChild(result);
+
+  </script>
+</body>
+
+</html>

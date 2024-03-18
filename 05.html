@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .container {
+      display: flex;
+      height: 200px;
+    }
+
+    .bar {
+      width: 10px;
+      margin: 0 10px;
+    }
+
+    .bar:nth-child(5n + 1) {
+      background-color: crimson;
+    }
+
+    .bar:nth-child(5n + 2) {
+      background-color: gold;
+    }
+
+    .bar:nth-child(5n + 3) {
+      background-color: forestgreen;
+    }
+
+    .bar:nth-child(5n + 4) {
+      background-color: dodgerblue;
+    }
+
+    .bar:nth-child(5n + 5) {
+      background-color: darkorchid;
+    }
+  </style>
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container"></div>
+  <script>
+    const container = document.querySelector('.container');
+    const len = 10;
+    const fragment = new DocumentFragment();
+
+    [...new Array(len)].forEach(() => {
+      const div = document.createElement('div');
+      div.classList.add('bar');
+      fragment.appendChild(div);
+    });
+
+    container.appendChild(fragment);
+
+  </script>
+</body>
+
+</html>

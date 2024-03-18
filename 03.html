@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 50px;
+      height: 50px;
+      background: dodgerblue;
+    }
+
+    .count {
+      background: #ff8080;
+    }
+
+    menu {
+      display: flex;
+      padding: 0;
+      box-shadow: -6px 6px #000;
+    }
+
+    menu button {
+      flex: 1;
+      padding: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+
+  <p class="count"></p>
+
+  <menu class="menu">
+    <button data-name="play">play</button>
+    <button data-name="pause">pause</button>
+    <button data-name="faster">x2</button>
+  </menu>
+
+  <script>
+    const menu = document.querySelector('.menu');
+    const box = document.querySelector('.box');
+    const count = document.querySelector('.count');
+    const boxKeyframes = [
+      { transform: 'translateX(0)' },
+      { transform: `translateX(calc(100vw - ${box.clientWidth}px - 20px))` }
+    ];
+
+    const boxAnim = {
+      animState: null,
+      play: () => {
+        if (!this.animState) {
+
+          this.animState = box.animate(boxKeyframes, { duration: 1000, iterations: Infinity, direction: 'alternate' });
+        }
+
+        count.textContent = this.animState.playState;
+        this.animState.play();
+
+      },
+      pause: () => {
+        if (!this.animState) return;
+        count.textContent = this.animState.playState;
+        this.animState.pause();
+      },
+      faster: () => {
+        if (!this.animState) return;
+        count.textContent = this.animState.playState;
+        this.animState.playbackRate += 1;
+      }
+    };
+
+    menu.addEventListener('click', (e) => {
+      const btnName = e.target.dataset.name;
+
+      boxAnim[btnName]?.();
+    });
+  </script>
+</body>
+
+</html>
